@@ -1,0 +1,79 @@
+function change_role_and_assign_membership_level( $order_id ) {
+  // Obtiene los datos del pedido
+  $order = wc_get_order( $order_id );
+  // Obtiene el ID del usuario que compró el producto
+  $user_id = $order->get_user_id();
+  // Obtiene el objeto del usuario
+  $user = get_userdata( $user_id );
+  // Comprueba si el usuario tiene el rol de cliente
+  if ( in_array( 'customer', $user->roles ) ) {
+    // Cambia el rol del usuario a suscriptor
+    $user->set_role( 'subscriber' );
+    // Obtiene los productos del pedido
+    $items = $order->get_items();
+    // Recorre los productos del pedido
+    foreach ( $items as $item ) {
+      // Obtiene el ID y el SKU del producto
+      $product_id = $item->get_product_id();
+      $product_sku = $item->get_product()->get_sku();
+      // Comprueba si el producto es el producto1
+      if ( $product_id == 752 && $product_sku == '001' ) {
+        // Asigna el nivel de membresía 1 al usuario
+        pmpro_changeMembershipLevel( 1, $user_id );
+        // Crea un nuevo pedido de Paid Memberships Pro con el ID de usuario y el nivel de membresía
+        $new_order = new MemberOrder();
+        $new_order->user_id = $user_id;
+        $new_order->membership_id = 1;
+		$new_order->status = 'success'; 
+        $new_order->saveOrder();
+      }
+      // Comprueba si el producto es el producto2
+      if ( $product_id == 756 && $product_sku == '002' ) {
+        // Asigna el nivel de membresía 2 al usuario
+        pmpro_changeMembershipLevel( 2, $user_id );
+        // Crea un nuevo pedido de Paid Memberships Pro con el ID de usuario y el nivel de membresía
+        $new_order = new MemberOrder();
+        $new_order->user_id = $user_id;
+        $new_order->membership_id = 2;
+ 		$new_order->status = 'success'; 
+        $new_order->saveOrder();
+      }
+		 // Comprueba si el producto es el producto3
+      if ( $product_id == 793 && $product_sku == '003' ) {
+        // Asigna el nivel de membresía 3 al usuario
+        pmpro_changeMembershipLevel( 3, $user_id );
+        // Crea un nuevo pedido de Paid Memberships Pro con el ID de usuario y el nivel de membresía
+        $new_order = new MemberOrder();
+        $new_order->user_id = $user_id;
+        $new_order->membership_id = 3;
+		$new_order->status = 'success'; 
+        $new_order->saveOrder();
+      }
+		 // Comprueba si el producto es el producto4
+      if ( $product_id == 813 && $product_sku == '004' ) {
+        // Asigna el nivel de membresía 4 al usuario
+        pmpro_changeMembershipLevel( 4, $user_id );
+        // Crea un nuevo pedido de Paid Memberships Pro con el ID de usuario y el nivel de membresía
+        $new_order = new MemberOrder();
+        $new_order->user_id = $user_id;
+        $new_order->membership_id = 4;
+		$new_order->status = 'success'; 
+        $new_order->saveOrder();
+      }
+ 		// Comprueba si el producto es el producto5
+      if ( $product_id == 851 && $product_sku == '005' ) {
+        // Asigna el nivel de membresía 5 al usuario
+        pmpro_changeMembershipLevel( 5, $user_id );
+        // Crea un nuevo pedido de Paid Memberships Pro con el ID de usuario y el nivel de membresía
+        $new_order = new MemberOrder();
+        $new_order->user_id = $user_id;
+        $new_order->membership_id = 5;
+		$new_order->status = 'success'; 
+        $new_order->saveOrder();
+      }
+    }
+  }
+}
+
+// Añade la función al filtro woocommerce_thankyou
+add_filter( 'woocommerce_thankyou', 'change_role_and_assign_membership_level' );
